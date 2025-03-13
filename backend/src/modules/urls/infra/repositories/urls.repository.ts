@@ -11,11 +11,13 @@ export class UrlsRepository implements IUrlsRepository {
     private readonly urlsRepository: Repository<UrlsSchema>,
   ) {}
 
-  async findOne(input: FindOneOptions): Promise<Url> {
+  async findOne(input: FindOneOptions<UrlsSchema>): Promise<Url> {
     const url = await this.urlsRepository.findOne(input);
+
     if (!url) {
       return null;
     }
+
     return UrlsMapper.toDomain(url);
   }
 
@@ -25,14 +27,13 @@ export class UrlsRepository implements IUrlsRepository {
 
   async create(data: Url): Promise<Url> {
     const urlsSchema = UrlsMapper.toPersistence(data);
-    console.log(urlsSchema);
     const createdUrl = await this.urlsRepository.save(urlsSchema);
-    console.log(createdUrl);
     return UrlsMapper.toDomain(createdUrl);
   }
 
   async findAll(): Promise<Url[]> {
-    const urls = await this.urlsRepository.find();
+    const urls = await this.urlsRepository.find({ withDeleted: true });
+    console.log(urls);
     return urls.map((url) => UrlsMapper.toDomain(url));
   }
 }

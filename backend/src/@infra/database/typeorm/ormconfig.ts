@@ -4,8 +4,6 @@ import { UrlsSchema } from '../../../modules/urls/infra/entities/urls.schema';
 
 const env = process.env.NODE_ENV || 'development';
 
-console.log(env);
-
 export function ormconfig(): DataSourceOptions {
   if (env === 'test') {
     return {

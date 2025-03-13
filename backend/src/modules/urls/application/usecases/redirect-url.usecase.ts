@@ -1,0 +1,23 @@
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { REPOSITORIES } from 'src/@shared/constants';
+import { IUrlsRepository } from '../repositories/urls.repository.interface';
+
+@Injectable()
+export class RedirectUrl {
+  @Inject(REPOSITORIES.URLS)
+  private readonly urlsRepository: IUrlsRepository;
+
+  async execute(shortened: string): Promise<string> {
+    const urlStored = await this.urlsRepository.findOne({
+      where: {
+        shortened,
+      },
+    });
+
+    if (!urlStored) {
+      throw new NotFoundException('URL not found');
+    }
+
+    return urlStored.original;
+  }
+}

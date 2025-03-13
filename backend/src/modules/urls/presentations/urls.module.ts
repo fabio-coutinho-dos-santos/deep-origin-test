@@ -5,6 +5,7 @@ import { UrlsController } from './urls.controller';
 import { REPOSITORIES } from 'src/@shared/constants';
 import { UrlsRepository } from '../infra/repositories/urls.repository';
 import { CreateShortUrl } from '../application/usecases/create-short-url.usecase';
+import { RedirectUrl } from '../application/usecases/redirect-url.usecase';
 
 @Module({
   imports: [TypeOrmModule.forFeature([UrlsSchema])],
@@ -15,6 +16,7 @@ import { CreateShortUrl } from '../application/usecases/create-short-url.usecase
       useClass: UrlsRepository,
     },
     CreateShortUrl,
+    RedirectUrl,
   ],
 })
 export class UrlsModule {}
