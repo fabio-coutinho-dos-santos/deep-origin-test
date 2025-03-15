@@ -21,6 +21,7 @@ import {
 import { API_PREFIX } from 'src/@shared/constants';
 import { GetAllUrls } from '../application/usecases/get-all-urls.usecase';
 import { JwtAuthGuard } from 'src/modules/auth/application/guards/jwt-auth/jwt-auth.guard';
+import { Public } from 'src/modules/auth/application/decorators/public.decorator';
 @Controller('')
 export class UrlsController {
   @Inject(CreateShortUrl)
@@ -40,6 +41,7 @@ export class UrlsController {
   }
 
   @Get(':shortened')
+  @Public()
   async redirect(
     @Param('shortened') shortened: string,
     @Res() res,
@@ -57,7 +59,6 @@ export class UrlsController {
   }
 
   @Get(`${API_PREFIX}/urls/all`)
-  @UseGuards(JwtAuthGuard)
   async getAll(@Request() req): Promise<UrlsPresenterType[]> {
     const userId: number = req.user.sub;
     const output: Url[] = await this.getAllUrls.execute(userId);

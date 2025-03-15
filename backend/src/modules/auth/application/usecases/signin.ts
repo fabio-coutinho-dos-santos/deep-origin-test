@@ -4,6 +4,8 @@ import { REPOSITORIES } from 'src/@shared/constants';
 import { JwtService } from '@nestjs/jwt';
 import { IUsersRepository } from 'src/modules/users/application/repositories/users.repositories.interface';
 import * as bcrypt from 'bcryptjs';
+import { UsersPresenter } from 'src/modules/users/application/presenter/users.presenter';
+import { User } from 'src/modules/users/domain/users';
 
 @Injectable()
 export class Signin {
@@ -37,6 +39,7 @@ export class Signin {
     const output: LoginResponse = {
       accessToken,
       expiresIn: parseInt(expiresIn, 10),
+      user: UsersPresenter.presentOne(user),
     };
 
     return output;
@@ -46,4 +49,5 @@ export class Signin {
 export type LoginResponse = {
   accessToken: string;
   expiresIn: number;
+  user: UsersPresenter;
 };
