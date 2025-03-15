@@ -1,5 +1,7 @@
+import { FaRegCopy } from 'react-icons/fa';
 import './MyModal.sass'
 import Modal from "react-bootstrap/Modal";
+import { useEffect, useState } from 'react';
 
 interface Props {
   image: string;
@@ -7,9 +9,34 @@ interface Props {
   onHide: () => void;
   children: React.ReactNode;
   title: string;
+  shortUrl?: string;
 }
 
 const MyModal = (props: Props) => {
+  const [urlShort, setUrlShort] = useState("");
+  const [copied, setCopied] = useState(false);
+  const [showToast, setShowToast] = useState(false);
+
+  const handleCopy = (shortUrl: string) => {
+    navigator.clipboard.writeText(shortUrl).then(() => {
+      setCopied(true);
+      setShowToast(true);
+    });
+  };
+
+  useEffect(() => {
+    if (showToast) {
+      const timer = setTimeout(
+        () => {
+          setShowToast(false)
+          props.onHide()
+        },
+        2000
+      );
+      return () => clearTimeout(timer);
+    }
+  }, [showToast]);
+
   return (
     <div className='myModal'>
       <Modal show={props.show} onHide={props.onHide}>
@@ -20,7 +47,19 @@ const MyModal = (props: Props) => {
           </div>
           <div className="text-center">
             <h6>{props.children}</h6>
+            {props.shortUrl && <span onClick={() => handleCopy(props.shortUrl as string)}>{props.shortUrl} <FaRegCopy /></span>
+            }
           </div>
+          {showToast && (
+            <div
+              className="position-fixed top-50 start-50 translate-middle toast show"
+              role="alert"
+            >
+              <div className="toast-body bg-success text-white p-3 rounded">
+                ✅ Text copied successfully!
+              </div>
+            </div>
+          )}
         </Modal.Body>
         <Modal.Footer>
           <button type='submit' onClick={() => { props.onHide() }} className='btn btn-outline-secondary'>Ok</button>

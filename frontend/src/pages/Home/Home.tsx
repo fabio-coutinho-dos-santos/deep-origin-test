@@ -3,19 +3,22 @@ import "./Home.sass";
 import { useHttp } from "../../hooks/useHttp";
 import { CONSTANTS } from "../../config/constants";
 import MyModal from "../../components/MyModal/MyModal";
-import { errorImage } from "../../components/MyModal/Images";
+import { errorImage, successImage } from "../../components/MyModal/Images";
 import { FaRegCopy } from "react-icons/fa"; // Import copy icon
+import UrlsDataTable from "../../components/Datatables/UrlsDataTable";
 
 function Home() {
-  const { post } = useHttp();
+  const { post, get } = useHttp();
   const [modalTitle, setModalTitle] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [modalContent, setModalContent] = useState("");
   const [modalImage, setModalImage] = useState("");
+  const [modalShortUrl, setModalShortUrl] = useState("");
   const [url, setUrl] = useState("");
   const [urlShort, setUrlShort] = useState("");
   const [copied, setCopied] = useState(false);
   const [showToast, setShowToast] = useState(false);
+  const [urls, setUrls] = useState([]);
 
   const handlerSubmit = async (event: any) => {
     try {
@@ -23,27 +26,35 @@ function Home() {
       const response = await post(CONSTANTS.url.create, { url });
       const shortened = `${CONSTANTS.url.host}/${response.shortened}`;
       setUrlShort(shortened);
+      setModalTitle('Shortened url created');
+      setShowModal(true);
+      setModalImage(successImage);
+      setModalContent('');
+      setModalShortUrl(shortened);
+      await fetchData(`${CONSTANTS.url.getAllUrls}`);
     } catch (e) {
-      setModalTitle(CONSTANTS.messages.errorLoadingFileTitle);
+      setModalTitle(CONSTANTS.messages.errorOnCreate);
       setShowModal(true);
       setModalImage(errorImage);
-      setModalContent(CONSTANTS.messages.errorLoadingFileContent);
+      setModalContent(CONSTANTS.messages.errorMessageOnCreate);
     }
   }
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(urlShort).then(() => {
-      setCopied(true);
-      setShowToast(true);
-    });
-  };
-
   useEffect(() => {
-    if (showToast) {
-      const timer = setTimeout(() => setShowToast(false), 2000); // Hide after 2 seconds
-      return () => clearTimeout(timer);
+    fetchData(`${CONSTANTS.url.getAllUrls}`);
+  }, []);
+
+  const fetchData = async (url: string) => {
+    try {
+      const response = await get(url);
+      setUrls(response);
+    } catch (error) {
+      setModalTitle(CONSTANTS.messages.errorOnGetAllUrls);
+      setShowModal(true);
+      setModalImage(errorImage);
+      setModalContent('');
     }
-  }, [showToast]);
+  };
 
   return (
     <div className="Home container">
@@ -51,41 +62,40 @@ function Home() {
         title={modalTitle}
         show={showModal}
         image={modalImage}
+        shortUrl={modalShortUrl}
         onHide={() => setShowModal(false)}
       >
         {" "}
         {modalContent}{" "}
       </MyModal>
 
-      {showToast && (
-        <div
-          className="position-fixed top-50 start-50 translate-middle toast show"
-          role="alert"
-        >
-          <div className="toast-body bg-success text-white p-3 rounded">
-            ✅ Text copied successfully!
-          </div>
-        </div>
-      )}
-
       <div className="row mt-5 justify-content-center form-container">
-        <div className="col-12 col-sm-6">
+        <div className="col-12 col-sm-9">
           <div className='form-floating mb-3'>
-            <input type="email" onChange={(e) => setUrl(e.target.value)} className='form-control' value={url} id='url' name='url' placeholder='Type the url' />
-            <label htmlFor="label" className='form-label'>Url</label>
+            <input type="text" onChange={(e) => setUrl(e.target.value)} className='form-control' min={5} value={url} id='url' name='url' placeholder='Type the url' />
+            <label htmlFor="label" className='form-label'>Create shortened url</label>
           </div>
-          <div className="row">
+
+
+          {/* <div className="row">
             <div className="col-6 col-sm-3">
               <input type="submit" className='btn btn-primary' value={'Create'} onClick={handlerSubmit} />
             </div>
-          </div>
-          <div className="row mt-3 justify-content-end">
             {urlShort && (
-              <div className="col-12 col-sm-6 offset-sm-3mt-2">
+              <div className="col-12 col-sm-6 offset-sm-3 text-sm-end mt-2">
                 <span onClick={handleCopy}>{urlShort} <FaRegCopy /></span>
               </div>
             )}
-          </div>
+          </div> */}
+        </div>
+        <div className="col-12 col-sm-3 mt-3">
+          <input type="submit" className='btn btn-primary' value={'Create'} onClick={handlerSubmit} />
+        </div>
+
+        <div className="col-12 mt-5">
+          <UrlsDataTable
+            urls={urls}
+          />
         </div>
       </div>
     </div>

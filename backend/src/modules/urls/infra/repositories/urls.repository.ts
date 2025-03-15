@@ -32,8 +32,11 @@ export class UrlsRepository implements IUrlsRepository {
   }
 
   async findAll(): Promise<Url[]> {
-    const urls = await this.urlsRepository.find({ withDeleted: true });
-    console.log(urls);
+    const urls = await this.urlsRepository.find({
+      order: {
+        createdAt: 'DESC',
+      },
+    });
     return urls.map((url) => UrlsMapper.toDomain(url));
   }
 }
