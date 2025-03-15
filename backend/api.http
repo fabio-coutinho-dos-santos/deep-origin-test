@@ -5,3 +5,13 @@ Content-Type: application/json
 {
   "url": "https://www.outlook.com"
 }
+
+###
+POST http://localhost:3000/api/v1/users/register
+Content-Type: application/json
+
+{
+  "name": "admin",
+  "email": "admin@gmail.com",
+  "password": "password"
+}
