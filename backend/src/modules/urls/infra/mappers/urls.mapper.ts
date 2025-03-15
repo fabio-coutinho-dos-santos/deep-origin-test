@@ -3,9 +3,17 @@ import { UrlsSchema } from '../entities/urls.schema';
 
 export class UrlsMapper {
   public static toDomain(raw: UrlsSchema): Url {
-    const { id, original, shortened, hits, createdAt, updatedAt, deletedAt } =
-      raw;
-    const url = new Url(original, shortened);
+    const {
+      id,
+      original,
+      shortened,
+      userId,
+      hits,
+      createdAt,
+      updatedAt,
+      deletedAt,
+    } = raw;
+    const url = new Url(original, shortened, userId);
     url.id = id;
     url.hits = hits;
     url.createdAt = createdAt;
@@ -20,6 +28,7 @@ export class UrlsMapper {
       original: domain.original,
       shortened: domain.shortened,
       hits: domain.hits,
+      userId: domain.userId,
       createdAt: domain.createdAt,
       updatedAt: domain.updatedAt,
       deletedAt: domain.deletedAt,

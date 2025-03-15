@@ -16,14 +16,12 @@ function Home() {
   const [modalShortUrl, setModalShortUrl] = useState("");
   const [url, setUrl] = useState("");
   const [urlShort, setUrlShort] = useState("");
-  const [copied, setCopied] = useState(false);
-  const [showToast, setShowToast] = useState(false);
   const [urls, setUrls] = useState([]);
 
   const handlerSubmit = async (event: any) => {
     try {
       event.preventDefault();
-      const response = await post(CONSTANTS.url.create, { url });
+      const response = await post(CONSTANTS.url.create, { url, userId: '1' });
       const shortened = `${CONSTANTS.url.host}/${response.shortened}`;
       setUrlShort(shortened);
       setModalTitle('Shortened url created');

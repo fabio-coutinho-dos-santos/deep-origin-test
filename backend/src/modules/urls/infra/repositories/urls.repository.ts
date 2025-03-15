@@ -11,6 +11,15 @@ export class UrlsRepository implements IUrlsRepository {
     private readonly urlsRepository: Repository<UrlsSchema>,
   ) {}
 
+  async findByUser(userId: number): Promise<Url[]> {
+    const urls = await this.urlsRepository.find({
+      where: {
+        userId: userId,
+      },
+    });
+    return urls.map((url) => UrlsMapper.toDomain(url));
+  }
+
   async findOne(input: FindOneOptions<UrlsSchema>): Promise<Url> {
     const url = await this.urlsRepository.findOne(input);
 

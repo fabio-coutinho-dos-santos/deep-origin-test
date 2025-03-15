@@ -7,6 +7,7 @@ export class Url {
   constructor(
     private _original: string,
     private _shortened: string,
+    private _userId: number,
   ) {
     this._hits = 0;
     this._createdAt = new Date();
@@ -15,6 +16,10 @@ export class Url {
 
   get id(): number {
     return this._id;
+  }
+
+  get userId(): number {
+    return this._userId;
   }
 
   get original(): string {
@@ -59,5 +64,9 @@ export class Url {
 
   set deletedAt(value: Date) {
     this._deletedAt = value;
+  }
+
+  set userId(value: number) {
+    this._userId = value;
   }
 }
