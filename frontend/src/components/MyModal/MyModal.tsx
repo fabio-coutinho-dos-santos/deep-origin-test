@@ -13,13 +13,10 @@ interface Props {
 }
 
 const MyModal = (props: Props) => {
-  const [urlShort, setUrlShort] = useState("");
-  const [copied, setCopied] = useState(false);
   const [showToast, setShowToast] = useState(false);
 
   const handleCopy = (shortUrl: string) => {
     navigator.clipboard.writeText(shortUrl).then(() => {
-      setCopied(true);
       setShowToast(true);
     });
   };

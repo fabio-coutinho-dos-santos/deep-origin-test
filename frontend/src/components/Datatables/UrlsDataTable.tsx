@@ -28,20 +28,6 @@ const columns: TableColumn<Urls>[] = [
   }
 ];
 
-const formatUpdatedDate = (updatedAt: string, createdAt: string) => {
-  if (!updatedAt) {
-    return new Date(createdAt).toLocaleString();
-  }
-  return new Date(updatedAt).toLocaleString();
-}
-
-const formatExpirationDate = (date: string) => {
-  if (!date) {
-    return "";
-  }
-  return new Date(date).toLocaleString();
-};
-
 interface UrlsDataTableProps {
   urls: Urls[];
 }

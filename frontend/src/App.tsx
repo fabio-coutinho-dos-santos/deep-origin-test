@@ -1,7 +1,5 @@
 import "./App.sass";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Footer from "./components/Footer/Footer";
-import Header from "./components/Header/Header";
 import Home from "./pages/Home/Home";
 import Login from "./pages/Login/Login";
 import { AuthProvider } from "./contexts/AuthContext";

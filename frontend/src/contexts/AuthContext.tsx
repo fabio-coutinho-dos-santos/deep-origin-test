@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useState, ReactNode, useEffect } from "react";
 import { CONSTANTS } from "../config/constants";
-import { useNavigate } from "react-router";
 
 interface AuthContextType {
   accessToken: string | null;

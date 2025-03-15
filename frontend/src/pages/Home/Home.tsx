@@ -17,7 +17,6 @@ function Home() {
   const [modalImage, setModalImage] = useState("");
   const [modalShortUrl, setModalShortUrl] = useState("");
   const [url, setUrl] = useState("");
-  const [urlShort, setUrlShort] = useState("");
   const [urls, setUrls] = useState([]);
   const { accessToken, userId, userName } = useAuth();
 
@@ -26,7 +25,6 @@ function Home() {
       event.preventDefault();
       const response = await post(CONSTANTS.url.create, { url, userId: userId });
       const shortened = `${CONSTANTS.url.host}/${response.shortened}`;
-      setUrlShort(shortened);
       setModalTitle('Shortened url created');
       setShowModal(true);
       setModalImage(successImage);
