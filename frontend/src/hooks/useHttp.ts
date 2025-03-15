@@ -1,5 +1,7 @@
 import httpStatus from "http-status";
-
+import { useLocalStorage } from "./useLocalStorage";
+import { CONSTANTS } from "../config/constants";
+const { getItem } = useLocalStorage();
 export const useHttp = () => {
   const get = async (url: string) => {
     const options = {
@@ -7,6 +9,7 @@ export const useHttp = () => {
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
+        Authorization: `Bearer ${getItem(CONSTANTS.storageKeys.accessToken)}`,
       },
     };
 
@@ -14,12 +17,13 @@ export const useHttp = () => {
     return await inspectResponse(response);
   };
 
-  const post = async (url: string, body: Record<string, string>) => {
+  const post = async (url: string, body: Record<string, unknown>) => {
     const options = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
+        Authorization: `Bearer ${getItem(CONSTANTS.storageKeys.accessToken)}`,
       },
       body: JSON.stringify(body),
     };

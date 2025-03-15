@@ -18,6 +18,9 @@ export class RedirectUrl {
       throw new NotFoundException('URL not found');
     }
 
+    urlStored.hits += 1;
+    await this.urlsRepository.update(urlStored, urlStored.id);
+
     return urlStored.original;
   }
 }

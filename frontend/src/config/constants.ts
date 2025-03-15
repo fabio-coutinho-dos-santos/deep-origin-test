@@ -17,4 +17,9 @@ export const CONSTANTS = {
   settings: {
     csvType: "text/csv",
   },
+  storageKeys: {
+    accessToken: "accessToken",
+    userId: "userId",
+    userName: "userName",
+  },
 };

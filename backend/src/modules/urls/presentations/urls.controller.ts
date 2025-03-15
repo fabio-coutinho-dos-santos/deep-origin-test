@@ -7,6 +7,8 @@ import {
   Param,
   Post,
   Res,
+  UseGuards,
+  Request,
 } from '@nestjs/common';
 import { CreateShortUrlDto } from '../application/dtos/create-short-url-dto';
 import { CreateShortUrl } from '../application/usecases/create-short-url.usecase';
@@ -18,6 +20,8 @@ import {
 } from '../application/presenters/presenters';
 import { API_PREFIX } from 'src/@shared/constants';
 import { GetAllUrls } from '../application/usecases/get-all-urls.usecase';
+import { JwtAuthGuard } from 'src/modules/auth/application/guards/jwt-auth/jwt-auth.guard';
+import { Public } from 'src/modules/auth/application/decorators/public.decorator';
 @Controller('')
 export class UrlsController {
   @Inject(CreateShortUrl)
@@ -31,11 +35,13 @@ export class UrlsController {
 
   @Post(`${API_PREFIX}/urls/shorten/create`)
   async shorten(@Body() input: CreateShortUrlDto): Promise<UrlsPresenterType> {
+    console.log('input', input);
     const output: Url = await this.createShortUrl.execute(input);
     return UrlsPresenter.presentOne(output);
   }
 
   @Get(':shortened')
+  @Public()
   async redirect(
     @Param('shortened') shortened: string,
     @Res() res,
@@ -53,8 +59,9 @@ export class UrlsController {
   }
 
   @Get(`${API_PREFIX}/urls/all`)
-  async getAll(): Promise<UrlsPresenterType[]> {
-    const output: Url[] = await this.getAllUrls.execute();
+  async getAll(@Request() req): Promise<UrlsPresenterType[]> {
+    const userId: number = req.user.sub;
+    const output: Url[] = await this.getAllUrls.execute(userId);
     return UrlsPresenter.presentAll(output);
   }
 }

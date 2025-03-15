@@ -15,18 +15,21 @@ export class CreateUrlsTable1741897322910 implements MigrationInterface {
             unsigned: true,
           },
           {
+            name: 'userId',
+            type: 'int',
+            isNullable: false,
+          },
+          {
             name: 'original',
             type: 'varchar',
             length: '255',
             isNullable: false,
-            // isUnique: true,
           },
           {
             name: 'shortened',
             type: 'varchar',
             length: '100',
             isNullable: false,
-            // isUnique: true,
           },
           {
             name: 'hits',

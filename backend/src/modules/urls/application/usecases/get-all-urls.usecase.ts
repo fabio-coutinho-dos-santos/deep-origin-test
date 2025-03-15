@@ -8,7 +8,7 @@ export class GetAllUrls {
   @Inject(REPOSITORIES.URLS)
   private urlsRepository: IUrlsRepository;
 
-  async execute(): Promise<Url[]> {
-    return this.urlsRepository.findAll();
+  async execute(userId: number): Promise<Url[]> {
+    return this.urlsRepository.findByUser(userId);
   }
 }

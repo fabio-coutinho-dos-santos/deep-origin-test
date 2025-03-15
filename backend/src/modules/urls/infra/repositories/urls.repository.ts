@@ -11,6 +11,15 @@ export class UrlsRepository implements IUrlsRepository {
     private readonly urlsRepository: Repository<UrlsSchema>,
   ) {}
 
+  async findByUser(userId: number): Promise<Url[]> {
+    const urls = await this.urlsRepository.find({
+      where: {
+        userId: userId,
+      },
+    });
+    return urls.map((url) => UrlsMapper.toDomain(url));
+  }
+
   async findOne(input: FindOneOptions<UrlsSchema>): Promise<Url> {
     const url = await this.urlsRepository.findOne(input);
 
@@ -22,7 +31,18 @@ export class UrlsRepository implements IUrlsRepository {
   }
 
   async update(data: Partial<Url>, id: number): Promise<Url> {
-    throw new Error('Method not implemented.');
+    await this.urlsRepository.update(id, UrlsMapper.toPersistence(data));
+    const url = await this.urlsRepository.findOne({
+      where: {
+        id,
+      },
+    });
+
+    if (!url) {
+      return null;
+    }
+
+    return UrlsMapper.toDomain(url);
   }
 
   async create(data: Url): Promise<Url> {

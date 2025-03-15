@@ -12,7 +12,7 @@ export class CreateShortUrl {
 
   async execute(input: CreateShortUrlDto): Promise<Url> {
     const shorten = await this.createUniqueSlugUrl();
-    const url = new Url(input.url, shorten);
+    const url = new Url(input.url, shorten, input.userId);
     return await this.urlsRepository.create(url);
   }
 

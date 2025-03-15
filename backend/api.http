@@ -5,3 +5,22 @@ Content-Type: application/json
 {
   "url": "https://www.outlook.com"
 }
+
+###
+POST http://localhost:3000/api/v1/users/register
+Content-Type: application/json
+
+{
+  "name": "Fabio Coutinho",
+  "email": "fabio@gmail2.com",
+  "password": "password"
+}
+
+###
+POST http://localhost:3000/api/v1/auth/login
+Content-Type: application/json
+
+{
+  "email": "fabio@gmail.com",
+  "password": "password"
+}
