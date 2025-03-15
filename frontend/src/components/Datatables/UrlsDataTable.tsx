@@ -6,6 +6,7 @@ import { useAuth } from "../../contexts/AuthContext";
 export interface Urls {
   original: string;
   shortened: string;
+  hits: number;
 }
 
 const columns: TableColumn<Urls>[] = [
@@ -20,6 +21,11 @@ const columns: TableColumn<Urls>[] = [
     selector: (row) => `${CONSTANTS.url.host}/${row.shortened}`,
     sortable: true,
   },
+  {
+    name: "Hits",
+    selector: (row) => row.hits,
+    sortable: true,
+  }
 ];
 
 const formatUpdatedDate = (updatedAt: string, createdAt: string) => {

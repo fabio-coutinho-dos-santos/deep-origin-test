@@ -30,5 +30,6 @@ import { UsersSchema } from 'src/modules/users/infra/entities/users.schema';
     },
     Signin,
   ],
+  exports: [Signin],
 })
 export class AuthModule {}

@@ -1,16 +1,17 @@
 import { useEffect, useState } from 'react'
-import './Login.sass'
+import './Register.sass'
 import { useNavigate } from 'react-router-dom';
 import { useHttp } from '../../hooks/useHttp';
 import { CONSTANTS } from '../../config/constants';
 import { useAuth } from '../../contexts/AuthContext';
 import { LoginInterface } from '../../interfaces/login.interface';
 
-const Login = () => {
+const Register = () => {
 
   const { post } = useHttp();
-  const [email, setEmail] = useState('admin@gmail.com');
-  const [password, setPassword] = useState('password');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { login, accessToken, userId, userName } = useAuth();
@@ -27,7 +28,9 @@ const Login = () => {
     try {
       event.preventDefault();
       setLoading(true)
-      const response: LoginInterface = await post(`${CONSTANTS.url.host}/api/v1/auth/login`, { email, password })
+      console.log(email, password, name)
+      const response: LoginInterface = await post(`${CONSTANTS.url.host}/api/v1/users/register`, { email, password, name })
+      console.log(response)
       login(response.accessToken, response.user.id, response.user.name);
       setLoading(false)
       navigate('/home')
@@ -43,8 +46,12 @@ const Login = () => {
         <div id='form-container'>
           <div className="row align-items-center gx-5">
             <div className="col-md-6 order-md-2">
-              <h2>Welcome, please login</h2>
+              <h2>Register</h2>
               <form onSubmit={handlerSubmit}>
+                <div className='form-floating mb-3'>
+                  <input type="text" onChange={(e) => setName(e.target.value)} className='form-control' value={name} id='name' name='name' placeholder='Digite seu nome' />
+                  <label htmlFor="label" className='form-label'>Full Name</label>
+                </div>
                 <div className='form-floating mb-3'>
                   <input type="email" onChange={(e) => setEmail(e.target.value)} className='form-control' value={email} id='email' name='email' placeholder='Digite seu email' />
                   <label htmlFor="label" className='form-label'>Email</label>
@@ -53,14 +60,12 @@ const Login = () => {
                   <input type="password" onChange={(e) => setPassword(e.target.value)} className='form-control' value={password} id='password' name='password' placeholder='Digite a sua senha' />
                   <label htmlFor="label" className='form-label'>Password</label>
                 </div>
-
                 <div className="row text-end">
-                  <a href="/register">Don't have an account, register</a>
+                  <a href="/login">Login</a>
                 </div>
-
                 <div className="row">
                   <div className="col-6 col-sm-3">
-                    <input type="submit" className='btn btn-primary' value={'Login'} />
+                    <input type="submit" className='btn btn-primary' value={'Register'} />
                   </div>
                   {loading && <div className="col-3">
                     <div className="spinner-border" role="status"></div>
@@ -69,9 +74,9 @@ const Login = () => {
               </form>
             </div>
 
-            <div className="col-md-6 order-md-1">
+            <div className="col-md-6 order-md-2">
               <div className="col-12">
-                <img src="images/login-image.png" alt="Entrar no Sistema" className='img-fluid' />
+                <img src="images/register-image.png" alt="Entrar no Sistema" className='img-fluid' />
               </div>
             </div>
           </div>
@@ -81,4 +86,4 @@ const Login = () => {
   )
 }
 
-export default Login
+export default Register

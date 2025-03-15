@@ -5,6 +5,7 @@ export class UrlsPresenter {
     return {
       original: data.original,
       shortened: data.shortened,
+      hits: data.hits,
     };
   }
 
@@ -16,4 +17,5 @@ export class UrlsPresenter {
 export type UrlsPresenterType = {
   original: string;
   shortened: string;
+  hits: number;
 };

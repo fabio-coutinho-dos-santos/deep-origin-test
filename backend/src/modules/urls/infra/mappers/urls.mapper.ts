@@ -22,7 +22,7 @@ export class UrlsMapper {
     return url;
   }
 
-  public static toPersistence(domain: Url): Partial<UrlsSchema> {
+  public static toPersistence(domain: Partial<Url>): Partial<UrlsSchema> {
     return {
       id: domain.id,
       original: domain.original,

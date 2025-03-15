@@ -5,9 +5,10 @@ import { REPOSITORIES } from 'src/@shared/constants';
 import { UsersRepository } from '../infra/repositories/users.repository';
 import { CreateUser } from '../application/usecases/create-user';
 import { UsersController } from './users.controller';
+import { AuthModule } from 'src/modules/auth/presentation/auth.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([UsersSchema])],
+  imports: [TypeOrmModule.forFeature([UsersSchema]), AuthModule],
   controllers: [UsersController],
   providers: [
     {

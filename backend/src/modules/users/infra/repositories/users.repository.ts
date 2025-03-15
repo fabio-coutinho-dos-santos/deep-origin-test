@@ -8,11 +8,11 @@ import { UsersMapper } from '../mappers/users.mapper';
 export class UsersRepository implements IUsersRepository {
   constructor(
     @InjectRepository(UsersSchema)
-    private readonly urlsRepository: Repository<UsersSchema>,
+    private readonly usersRepository: Repository<UsersSchema>,
   ) {}
 
   async findOne(input: FindOneOptions<UsersSchema>): Promise<User> {
-    const url = await this.urlsRepository.findOne(input);
+    const url = await this.usersRepository.findOne(input);
 
     if (!url) {
       return null;
@@ -22,17 +22,28 @@ export class UsersRepository implements IUsersRepository {
   }
 
   async update(data: Partial<User>, id: number): Promise<User> {
-    throw new Error('Method not implemented.');
+    await this.usersRepository.update(id, data);
+    const user = await this.usersRepository.findOne({
+      where: {
+        id,
+      },
+    });
+
+    if (!user) {
+      return null;
+    }
+
+    return UsersMapper.toDomain(user);
   }
 
   async create(data: User): Promise<User> {
     const urlsSchema = UsersMapper.toPersistence(data);
-    const createdUrl = await this.urlsRepository.save(urlsSchema);
+    const createdUrl = await this.usersRepository.save(urlsSchema);
     return UsersMapper.toDomain(createdUrl);
   }
 
   async findAll(): Promise<User[]> {
-    const urls = await this.urlsRepository.find({
+    const urls = await this.usersRepository.find({
       order: {
         createdAt: 'DESC',
       },

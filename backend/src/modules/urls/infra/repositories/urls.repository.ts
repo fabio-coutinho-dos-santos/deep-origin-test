@@ -31,7 +31,18 @@ export class UrlsRepository implements IUrlsRepository {
   }
 
   async update(data: Partial<Url>, id: number): Promise<Url> {
-    throw new Error('Method not implemented.');
+    await this.urlsRepository.update(id, UrlsMapper.toPersistence(data));
+    const url = await this.urlsRepository.findOne({
+      where: {
+        id,
+      },
+    });
+
+    if (!url) {
+      return null;
+    }
+
+    return UrlsMapper.toDomain(url);
   }
 
   async create(data: Url): Promise<Url> {

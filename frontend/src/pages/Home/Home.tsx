@@ -81,7 +81,7 @@ function Home() {
             </div>
 
           </div>
-          <div className="col-12 col-sm-3 mt-3">
+          <div className="col-12 col-sm-3">
             <input type="submit" className='btn btn-primary' value={'Create'} onClick={handlerSubmit} />
           </div>
 
