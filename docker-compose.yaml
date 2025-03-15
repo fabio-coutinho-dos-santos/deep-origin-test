@@ -14,20 +14,22 @@ services:
     networks:
       - deep-origin
 
-  # svc-frontend:
-  #   container_name: svc-frontend
-  #   build:
-  #     context: ./frontend
-  #     dockerfile: Dockerfile.dev
-  #   working_dir: /app
-  #   ports:
-  #     - "4000:4000"
-  #   env_file:
-  #     - ./frontend/src/.env
-  #   depends_on:
-  #     - svc-backend
-  #   networks:
-  #     - deep-origin
+  svc-frontend:
+    container_name: svc-frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    working_dir: /app
+    ports:
+      - "4000:4000"
+    env_file:
+      - ./frontend/src/.env
+    volumes:
+      - ./frontend:/app
+    depends_on:
+      - svc-backend
+    networks:
+      - deep-origin
 
   svc-postgres:
     image: postgres:16-alpine

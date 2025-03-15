@@ -1,0 +1,69 @@
+@import '../../Variables'
+
+
+.form-container
+  background-color: white
+  border-radius: 20px
+  box-shadow: .5px 10px 15px rgba(0,0,0,.2)
+  margin-top: 30px
+  padding: 25px
+
+.Home
+  min-height: $content-size
+  
+  span
+    color: #01579b
+    font-weight: 900
+    cursor: pointer
+
+  h2
+    font-weight: 900
+    margin-bottom: 30px
+
+  a
+    color: #222
+    transition: 0.5s
+
+    &:hover
+      color: #01579b
+
+  form
+    padding-bottom: 0px
+
+  .form-control
+    border: none
+    border-bottom: 1px solid #CCC
+    border-radius: 0
+
+    &:focus
+      box-shadow: none
+
+  .form-floating label
+    color: #9E9E9E
+
+  .form-floating .form-control:focus~label
+    color: #222
+
+  input[type='submit']
+    background-color: #fff
+    border-color: #263238
+    width: 100%
+    transition: 0.5s
+    color: #263238
+    box-shadow: none
+
+    &:hover
+      background-color: #263238
+      border-color: #263238
+      color: white
+      transition: 0.5s
+      scale: 1.1
+      box-shadow: none
+
+  .spinner-border
+    margin-top: 28px
+
+@media ( min-width: 768px )
+  .Home
+    #load-file-btn
+      margin: 20px 0 0 35px

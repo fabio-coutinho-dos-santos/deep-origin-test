@@ -1,0 +1,25 @@
+@import '../../Variables'
+
+.Header
+  color: white
+  background-color: black
+  height: $header-size
+
+  .logo
+    border-radius: 100px
+    width: 2.5rem
+    box-shadow: 2px 2px 2px 2px white
+    transition: 0.5s
+    &:hover
+      transform: translate(0px, 2px)
+      scale: 1.1
+      
+    
+
+#github-icon
+    font-size: 1.8rem
+
+@media ( min-width: 768px )
+  #github-icon
+    font-size: 3rem
+    margin: 0 20px

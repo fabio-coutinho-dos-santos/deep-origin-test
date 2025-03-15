@@ -12,7 +12,13 @@ import { CreateShortUrlDto } from '../application/dtos/create-short-url-dto';
 import { CreateShortUrl } from '../application/usecases/create-short-url.usecase';
 import { Url } from '../domain/urls';
 import { RedirectUrl } from '../application/usecases/redirect-url.usecase';
-@Controller('urls')
+import {
+  UrlsPresenter,
+  UrlsPresenterType,
+} from '../application/presenters/presenters';
+import { API_PREFIX } from 'src/@shared/constants';
+import { GetAllUrls } from '../application/usecases/get-all-urls.usecase';
+@Controller('')
 export class UrlsController {
   @Inject(CreateShortUrl)
   private createShortUrl: CreateShortUrl;
@@ -20,12 +26,16 @@ export class UrlsController {
   @Inject(RedirectUrl)
   private redirectUrl: RedirectUrl;
 
-  @Post('shorten/create')
-  async shorten(@Body() input: CreateShortUrlDto): Promise<Url> {
-    return await this.createShortUrl.execute(input);
+  @Inject(GetAllUrls)
+  private getAllUrls: GetAllUrls;
+
+  @Post(`${API_PREFIX}/urls/shorten/create`)
+  async shorten(@Body() input: CreateShortUrlDto): Promise<UrlsPresenterType> {
+    const output: Url = await this.createShortUrl.execute(input);
+    return UrlsPresenter.presentOne(output);
   }
 
-  @Get(':shortened/redirect')
+  @Get(':shortened')
   async redirect(
     @Param('shortened') shortened: string,
     @Res() res,
@@ -40,5 +50,11 @@ export class UrlsController {
         throw e;
       }
     }
+  }
+
+  @Get(`${API_PREFIX}/urls/all`)
+  async getAll(): Promise<UrlsPresenterType[]> {
+    const output: Url[] = await this.getAllUrls.execute();
+    return UrlsPresenter.presentAll(output);
   }
 }

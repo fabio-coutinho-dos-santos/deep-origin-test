@@ -19,14 +19,14 @@ export class CreateUrlsTable1741897322910 implements MigrationInterface {
             type: 'varchar',
             length: '255',
             isNullable: false,
-            isUnique: true,
+            // isUnique: true,
           },
           {
             name: 'shortened',
             type: 'varchar',
             length: '100',
             isNullable: false,
-            isUnique: true,
+            // isUnique: true,
           },
           {
             name: 'hits',
