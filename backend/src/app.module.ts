@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { DatabaseModule } from './@infra/database/typeorm/database.module';
 import { UrlsModule } from './modules/urls/presentations/urls.module';
 import { UsersModule } from './modules/users/presentation/users.module';
+import { AuthModule } from './modules/auth/presentation/auth.module';
 
 @Module({
   imports: [
@@ -10,6 +11,7 @@ import { UsersModule } from './modules/users/presentation/users.module';
     DatabaseModule,
     UrlsModule,
     UsersModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],
