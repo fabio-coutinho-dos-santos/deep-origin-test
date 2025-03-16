@@ -25,7 +25,7 @@ const UrlsDataTable: React.FC<{ urls: Urls[] }> = ({ urls }) => {
       name: "Original",
       selector: (row) => row.original,
       sortable: true,
-      width: "30rem",
+      width: "25rem",
     },
     {
       name: "Shortened",
@@ -43,6 +43,7 @@ const UrlsDataTable: React.FC<{ urls: Urls[] }> = ({ urls }) => {
           </div>
         );
       },
+      width: "25rem",
       sortable: true,
     },
     {
