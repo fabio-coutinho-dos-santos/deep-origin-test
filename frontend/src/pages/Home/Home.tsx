@@ -8,6 +8,7 @@ import UrlsDataTable from "../../components/Datatables/UrlsDataTable";
 import { useAuth } from "../../contexts/AuthContext";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
+import { useHttpErrors } from "../../hooks/useHttpErrors";
 
 function Home() {
   const { post, get } = useHttp();
@@ -20,6 +21,7 @@ function Home() {
   const [url, setUrl] = useState("");
   const [urls, setUrls] = useState([]);
   const { userId } = useAuth();
+  const { getErrorMessage } = useHttpErrors();
 
   const handlerSubmit = async (event: any) => {
     try {
@@ -38,6 +40,7 @@ function Home() {
       setShowModal(true);
       setModalImage(errorImage);
       setModalContent(CONSTANTS.messages.errorMessageOnCreate);
+      setModalShortUrl('');
     }
   }
 
@@ -51,12 +54,12 @@ function Home() {
       const response = await get(url);
       setUrls(response);
       setLoading(false);
-    } catch (error) {
+    } catch (error: any) {
       setLoading(false);
       setModalTitle(CONSTANTS.messages.errorOnGetAllUrls);
       setShowModal(true);
       setModalImage(errorImage);
-      setModalContent('');
+      setModalContent(getErrorMessage(error.status));
     }
   };
 

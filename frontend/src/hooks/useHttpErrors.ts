@@ -9,6 +9,8 @@ export const useHttpErrors = () => {
         return "Forbidden";
       case 404:
         return "Not Found";
+      case 429:
+        return "Too Many Requests, please try again after 1 minute";
       case 500:
         return "Something went wrong";
       default:
