@@ -5,6 +5,7 @@ import { useHttp } from '../../hooks/useHttp';
 import { CONSTANTS } from '../../config/constants';
 import { useAuth } from '../../contexts/AuthContext';
 import { LoginInterface } from '../../interfaces/login.interface';
+import { useHttpErrors } from '../../hooks/useHttpErrors';
 
 const Register = () => {
 
@@ -16,9 +17,14 @@ const Register = () => {
   const navigate = useNavigate();
   const { login, accessToken, userId, userName } = useAuth();
 
+  const [error, setError] = useState(false);
+  const [errorText, setErrorText] = useState('');
+
+
+  const { registerErrorHandling } = useHttpErrors();
+
   useEffect(() => {
     if (accessToken && userId && userName) {
-      console.log(accessToken, userId, userName)
       navigate('/home')
     }
   }, [accessToken, userId, userName])
@@ -28,15 +34,14 @@ const Register = () => {
     try {
       event.preventDefault();
       setLoading(true)
-      console.log(email, password, name)
       const response: LoginInterface = await post(`${CONSTANTS.url.host}/api/v1/users/register`, { email, password, name })
-      console.log(response)
       login(response.accessToken, response.user.id, response.user.name);
       setLoading(false)
       navigate('/home')
-    } catch (e) {
-      alert(e)
+    } catch (e: any) {
       setLoading(false)
+      setError(true)
+      setErrorText(registerErrorHandling(e.status))
     }
   }
 
@@ -49,17 +54,20 @@ const Register = () => {
               <h2>Register</h2>
               <form onSubmit={handlerSubmit}>
                 <div className='form-floating mb-3'>
-                  <input type="text" onChange={(e) => setName(e.target.value)} className='form-control' value={name} id='name' name='name' placeholder='Digite seu nome' />
+                  <input type="text" minLength={5} required onChange={(e) => setName(e.target.value)} className='form-control' value={name} id='name' name='name' placeholder='Digite seu nome' />
                   <label htmlFor="label" className='form-label'>Full Name</label>
                 </div>
                 <div className='form-floating mb-3'>
-                  <input type="email" onChange={(e) => setEmail(e.target.value)} className='form-control' value={email} id='email' name='email' placeholder='Digite seu email' />
+                  <input type="email" minLength={5} required onChange={(e) => setEmail(e.target.value)} className='form-control' value={email} id='email' name='email' placeholder='Digite seu email' />
                   <label htmlFor="label" className='form-label'>Email</label>
                 </div>
                 <div className='form-floating mb-3'>
-                  <input type="password" onChange={(e) => setPassword(e.target.value)} className='form-control' value={password} id='password' name='password' placeholder='Digite a sua senha' />
+                  <input type="password" minLength={5} required onChange={(e) => setPassword(e.target.value)} className='form-control' value={password} id='password' name='password' placeholder='Digite a sua senha' />
                   <label htmlFor="label" className='form-label'>Password</label>
                 </div>
+                {error && <div className="row text-start text-error">
+                  <p>{errorText}</p>
+                </div>}
                 <div className="row text-end">
                   <a href="/login">Login</a>
                 </div>
@@ -74,7 +82,7 @@ const Register = () => {
               </form>
             </div>
 
-            <div className="col-md-6 order-md-2">
+            <div className="col-md-6 order-md-2 d-none d-md-block">
               <div className="col-12">
                 <img src="images/register-image.png" alt="Entrar no Sistema" className='img-fluid' />
               </div>

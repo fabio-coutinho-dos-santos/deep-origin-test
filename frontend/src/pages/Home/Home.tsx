@@ -16,9 +16,10 @@ function Home() {
   const [modalContent, setModalContent] = useState("");
   const [modalImage, setModalImage] = useState("");
   const [modalShortUrl, setModalShortUrl] = useState("");
+  const [loading, setLoading] = useState(false);
   const [url, setUrl] = useState("");
   const [urls, setUrls] = useState([]);
-  const { accessToken, userId, userName } = useAuth();
+  const { userId } = useAuth();
 
   const handlerSubmit = async (event: any) => {
     try {
@@ -32,6 +33,7 @@ function Home() {
       setModalShortUrl(shortened);
       await fetchData(`${CONSTANTS.url.getAllUrls}`);
     } catch (e) {
+      setLoading(false);
       setModalTitle(CONSTANTS.messages.errorOnCreate);
       setShowModal(true);
       setModalImage(errorImage);
@@ -40,15 +42,17 @@ function Home() {
   }
 
   useEffect(() => {
+    setLoading(true);
     fetchData(`${CONSTANTS.url.getAllUrls}`);
-    console.log(accessToken, userId, userName);
   }, []);
 
   const fetchData = async (url: string) => {
     try {
       const response = await get(url);
       setUrls(response);
+      setLoading(false);
     } catch (error) {
+      setLoading(false);
       setModalTitle(CONSTANTS.messages.errorOnGetAllUrls);
       setShowModal(true);
       setModalImage(errorImage);
@@ -74,20 +78,28 @@ function Home() {
         <div className="row mt-5 justify-content-center form-container">
           <div className="col-12 col-sm-9">
             <div className='form-floating mb-3'>
-              <input type="text" onChange={(e) => setUrl(e.target.value)} className='form-control' min={5} value={url} id='url' name='url' placeholder='Type the url' />
-              <label htmlFor="label" className='form-label'>Create shortened url</label>
+              <input type="text" minLength={5} required onChange={(e) => setUrl(e.target.value)} className='form-control' min={5} value={url} id='url' name='url' placeholder='Type the url' />
+              <label htmlFor="label" className='form-label'>Enter the URL to shorten</label>
             </div>
 
           </div>
           <div className="col-12 col-sm-3">
-            <input type="submit" className='btn btn-primary' value={'Create'} onClick={handlerSubmit} />
+            <input type="submit" className='btn btn-primary' disabled={url.length < 5} value={'Create'} onClick={handlerSubmit} />
           </div>
 
-          <div className="col-12 mt-5">
-            <UrlsDataTable
-              urls={urls}
-            />
-          </div>
+          {loading &&
+            <div className="col-12 mt-5 text-center">
+              <div className="spinner-border" role="status"></div>
+            </div>
+          }
+
+          {!loading && urls.length > 0 &&
+            <div className="col-12 mt-5">
+              <UrlsDataTable
+                urls={urls}
+              />
+            </div>
+          }
         </div>
       </div>
       <Footer />

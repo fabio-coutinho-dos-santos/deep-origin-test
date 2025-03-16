@@ -23,13 +23,14 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     setUserId(id);
     setUserName(name);
 
+    const firstName = name.split(' ')[0] ?? 'User';
+
     localStorage.setItem(CONSTANTS.storageKeys.accessToken, token);
     localStorage.setItem(CONSTANTS.storageKeys.userId, id);
-    localStorage.setItem(CONSTANTS.storageKeys.userName, name);
+    localStorage.setItem(CONSTANTS.storageKeys.userName, firstName);
   };
 
   const logout = () => {
-    console.log('logout')
     setAccessToken(null);
     setUserId(null);
     setUserName(null);

@@ -12,12 +12,12 @@ function Header() {
         className="position-fixed top-0 end-0 "
         onClick={() => logout()}
       >
-        <h6 className="mt-3">{userName} <FiLogOut className="logout" /></h6>
+        <h6 className="mt-3">{userName?.split(' ')[0] ?? "User"} <FiLogOut className="logout" /></h6>
       </div>
       <div className="text text-start">
         <div className="mt-1">
           <h3>
-            <img className="m-3 logo" role="logo" src="logo.png" /> {"Url Shortner"}
+            <img className="m-3 logo" role="logo" src="logo.png" /> {"Url Shortener"}
           </h3>
         </div>
       </div>
