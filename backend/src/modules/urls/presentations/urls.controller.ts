@@ -20,7 +20,6 @@ import {
 } from '../application/presenters/presenters';
 import { API_PREFIX } from 'src/@shared/constants';
 import { GetAllUrls } from '../application/usecases/get-all-urls.usecase';
-import { JwtAuthGuard } from 'src/modules/auth/application/guards/jwt-auth/jwt-auth.guard';
 import { Public } from 'src/modules/auth/application/decorators/public.decorator';
 @Controller('')
 export class UrlsController {
@@ -35,7 +34,6 @@ export class UrlsController {
 
   @Post(`${API_PREFIX}/urls/shorten/create`)
   async shorten(@Body() input: CreateShortUrlDto): Promise<UrlsPresenterType> {
-    console.log('input', input);
     const output: Url = await this.createShortUrl.execute(input);
     return UrlsPresenter.presentOne(output);
   }
