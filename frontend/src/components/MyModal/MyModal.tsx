@@ -28,7 +28,7 @@ const MyModal = (props: Props) => {
           setShowToast(false)
           props.onHide()
         },
-        2000
+        1000
       );
       return () => clearTimeout(timer);
     }
@@ -51,9 +51,12 @@ const MyModal = (props: Props) => {
             <div
               className="position-fixed top-50 start-50 translate-middle toast show"
               role="alert"
+              style={{
+                zIndex: 9999,
+              }}
             >
               <div className="toast-body bg-success text-white p-3 rounded">
-                ✅ Text copied successfully!
+                ✅ Copied
               </div>
             </div>
           )}
