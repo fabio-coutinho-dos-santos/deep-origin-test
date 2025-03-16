@@ -21,6 +21,7 @@ import {
 import { API_PREFIX } from 'src/@shared/constants';
 import { GetAllUrls } from '../application/usecases/get-all-urls.usecase';
 import { Public } from 'src/modules/auth/application/decorators/public.decorator';
+import { Throttle } from '@nestjs/throttler';
 @Controller('')
 export class UrlsController {
   @Inject(CreateShortUrl)
@@ -57,6 +58,7 @@ export class UrlsController {
   }
 
   @Get(`${API_PREFIX}/urls/all`)
+  @Throttle({ default: { limit: 20, ttl: 30000 } })
   async getAll(@Request() req): Promise<UrlsPresenterType[]> {
     const userId: number = req.user.sub;
     const output: Url[] = await this.getAllUrls.execute(userId);
