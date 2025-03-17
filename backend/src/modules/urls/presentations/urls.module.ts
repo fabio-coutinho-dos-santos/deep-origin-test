@@ -7,6 +7,7 @@ import { UrlsRepository } from '../infra/repositories/urls.repository';
 import { CreateShortUrl } from '../application/usecases/create-short-url.usecase';
 import { RedirectUrl } from '../application/usecases/redirect-url.usecase';
 import { GetAllUrls } from '../application/usecases/get-all-urls.usecase';
+import { ValidateUrlService } from '../application/services/validate-url-service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([UrlsSchema])],
@@ -19,6 +20,7 @@ import { GetAllUrls } from '../application/usecases/get-all-urls.usecase';
     CreateShortUrl,
     RedirectUrl,
     GetAllUrls,
+    ValidateUrlService,
   ],
 })
 export class UrlsModule {}

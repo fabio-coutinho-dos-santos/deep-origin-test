@@ -9,6 +9,8 @@ export const useHttpErrors = () => {
         return "Forbidden";
       case 404:
         return "Not Found";
+      case 422:
+        return "Unprocessable Entity - Ivalid Url";
       case 429:
         return "Too Many Requests, please try again after 1 minute";
       case 500:

@@ -7,7 +7,6 @@ import {
   Param,
   Post,
   Res,
-  UseGuards,
   Request,
 } from '@nestjs/common';
 import { CreateShortUrlDto } from '../application/dtos/create-short-url-dto';
@@ -33,6 +32,7 @@ export class UrlsController {
   @Inject(GetAllUrls)
   private getAllUrls: GetAllUrls;
 
+  @Public()
   @Post(`${API_PREFIX}/urls/shorten/create`)
   async shorten(@Body() input: CreateShortUrlDto): Promise<UrlsPresenterType> {
     const output: Url = await this.createShortUrl.execute(input);

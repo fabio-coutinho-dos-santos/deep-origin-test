@@ -1,19 +1,39 @@
-import { Inject, Injectable, Logger } from '@nestjs/common';
+import {
+  Inject,
+  Injectable,
+  Logger,
+  UnprocessableEntityException,
+} from '@nestjs/common';
 import { REPOSITORIES } from 'src/@shared/constants';
 import { IUrlsRepository } from '../repositories/urls.repository.interface';
 import { CreateShortUrlDto } from '../dtos/create-short-url-dto';
 import { UrlsSchema } from '../../infra/entities/urls.schema';
 import { Url } from '../../domain/urls';
+import { ValidateUrlService } from '../services/validate-url-service';
 
 @Injectable()
 export class CreateShortUrl {
   @Inject(REPOSITORIES.URLS)
   private urlsRepository: IUrlsRepository;
 
+  @Inject(ValidateUrlService)
+  private validateUrlService: ValidateUrlService;
+
   async execute(input: CreateShortUrlDto): Promise<Url> {
-    const shorten = await this.createUniqueSlugUrl();
-    const url = new Url(input.url, shorten, input.userId);
-    return await this.urlsRepository.create(url);
+    try {
+      const valid = await this.validateUrlService.isUrlValid(input.url);
+
+      if (!valid) {
+        throw new UnprocessableEntityException('Invalid URL');
+      }
+
+      const shorten = await this.createUniqueSlugUrl();
+      const url = new Url(input.url, shorten, input.userId);
+      return await this.urlsRepository.create(url);
+    } catch (error) {
+      Logger.error(error, CreateShortUrl.name);
+      throw error;
+    }
   }
 
   private async createUniqueSlugUrl(): Promise<string> {
