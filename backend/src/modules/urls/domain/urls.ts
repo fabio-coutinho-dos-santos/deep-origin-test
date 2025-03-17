@@ -1,16 +1,44 @@
+import {
+  IsNotEmpty,
+  IsString,
+  IsUrl,
+  MinLength,
+  validateSync,
+} from 'class-validator';
+
 export class Url {
   private _id?: number;
   private _hits: number;
   private _createdAt: Date;
   private _updatedAt: Date;
   private _deletedAt: Date;
-  constructor(
-    private _original: string,
-    private _shortened: string,
-    private _userId: number,
-  ) {
+
+  @IsString()
+  @IsUrl()
+  @IsNotEmpty()
+  private _original: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @MinLength(5)
+  private _shortened: string;
+
+  private _userId: number;
+
+  constructor(original: string, shortened: string, userId: number) {
     this._hits = 0;
+    this._original = original;
+    this._shortened = shortened;
+    this._userId = userId;
     this._createdAt = new Date();
+    this.validate();
+  }
+
+  private validate() {
+    const errors = validateSync(this);
+    if (errors.length > 0) {
+      throw new Error(JSON.stringify(errors));
+    }
   }
 
   get id(): number {

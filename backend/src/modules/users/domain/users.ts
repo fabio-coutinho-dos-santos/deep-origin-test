@@ -1,20 +1,43 @@
+import {
+  IsEmail,
+  IsNotEmpty,
+  IsString,
+  MinLength,
+  validateSync,
+} from 'class-validator';
+
 export class User {
   private _id: number;
   private _createdAt: Date;
   private _updatedAt: Date;
   private _deletedAt: Date;
 
-  constructor(
-    private _name: string,
-    private _email: string,
-    private _password: string,
-  ) {
+  @IsNotEmpty()
+  @IsString()
+  private _name: string;
+
+  @IsNotEmpty()
+  @IsString()
+  @IsEmail()
+  private _email: string;
+
+  @IsNotEmpty()
+  @IsString()
+  @MinLength(5, { message: 'Password must be at least 5 characters long' })
+  private _password: string;
+
+  constructor(name: string, email: string, password: string) {
+    this._name = name;
+    this._email = email;
+    this._password = password;
+
     this.validate();
   }
 
-  validate() {
-    if (!this._name || !this._email || !this._password) {
-      throw new Error('Invalid user data');
+  private validate() {
+    const errors = validateSync(this);
+    if (errors.length > 0) {
+      throw new Error(JSON.stringify(errors));
     }
   }
 
@@ -52,14 +75,17 @@ export class User {
 
   set name(name: string) {
     this._name = name;
+    this.validate();
   }
 
   set email(email: string) {
     this._email = email;
+    this.validate();
   }
 
   set password(password: string) {
     this._password = password;
+    this.validate();
   }
 
   set createdAt(createdAt: Date) {

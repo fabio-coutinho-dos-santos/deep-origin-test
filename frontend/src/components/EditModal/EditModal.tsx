@@ -64,7 +64,7 @@ const EditModal = (props: Props) => {
 
           {showToast && (
             <div
-              className="position-fixed top-50 start-50 translate-middle toast show"
+              className="position-fixed top-1 start-50 translate-middle toast show"
               role="alert"
               style={{
                 zIndex: 9999,

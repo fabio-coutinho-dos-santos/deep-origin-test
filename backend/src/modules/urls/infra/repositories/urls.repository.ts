@@ -73,6 +73,7 @@ export class UrlsRepository implements IUrlsRepository {
     const urlStored = await this.urlsRepository.findOne({
       where: {
         original: data.original,
+        userId: data.userId,
       },
     });
 
