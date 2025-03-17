@@ -1,13 +1,12 @@
 import { Body, Controller, Inject, Logger, Post } from '@nestjs/common';
 import { CreateUserDto } from '../application/dtos/create-user.dto';
 import { CreateUser } from '../application/usecases/create-user';
-import { API_PREFIX } from 'src/@shared/constants';
-import { UsersPresenter } from '../application/presenter/users.presenter';
-import { Public } from 'src/modules/auth/application/decorators/public.decorator';
+import { API_PREFIX } from '../../../@shared/constants';
+import { Public } from '../../../modules/auth/application/decorators/public.decorator';
 import {
   LoginResponse,
   Signin,
-} from 'src/modules/auth/application/usecases/signin';
+} from '../../../modules/auth/application/usecases/signin';
 
 @Controller(`${API_PREFIX}/users`)
 export class UsersController {

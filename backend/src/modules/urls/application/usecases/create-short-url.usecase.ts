@@ -4,7 +4,7 @@ import {
   Logger,
   UnprocessableEntityException,
 } from '@nestjs/common';
-import { REPOSITORIES } from 'src/@shared/constants';
+import { REPOSITORIES } from '../../../../@shared/constants';
 import { IUrlsRepository } from '../repositories/urls.repository.interface';
 import { CreateShortUrlDto } from '../dtos/create-short-url-dto';
 import { UrlsSchema } from '../../infra/entities/urls.schema';

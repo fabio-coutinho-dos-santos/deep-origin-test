@@ -1,5 +1,5 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
-import { BCRYPT, REPOSITORIES } from 'src/@shared/constants';
+import { BCRYPT, REPOSITORIES } from '../../../../@shared/constants';
 import { IUsersRepository } from '../repositories/users.repositories.interface';
 import { CreateUserDto } from '../dtos/create-user.dto';
 import { User } from '../../domain/users';

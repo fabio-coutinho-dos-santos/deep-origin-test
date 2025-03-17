@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { REPOSITORIES } from 'src/@shared/constants';
+import { REPOSITORIES } from '../../../../@shared/constants';
 import { IUrlsRepository } from '../repositories/urls.repository.interface';
 
 @Injectable()

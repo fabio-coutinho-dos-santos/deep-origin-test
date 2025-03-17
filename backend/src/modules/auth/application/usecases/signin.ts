@@ -1,11 +1,10 @@
 import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { LoginDto } from '../dto/login.dto';
-import { REPOSITORIES } from 'src/@shared/constants';
+import { REPOSITORIES } from '../../../../@shared/constants';
 import { JwtService } from '@nestjs/jwt';
-import { IUsersRepository } from 'src/modules/users/application/repositories/users.repositories.interface';
+import { IUsersRepository } from '../../../../modules/users/application/repositories/users.repositories.interface';
 import * as bcrypt from 'bcryptjs';
-import { UsersPresenter } from 'src/modules/users/application/presenter/users.presenter';
-import { User } from 'src/modules/users/domain/users';
+import { UsersPresenter } from '../../../../modules/users/application/presenter/users.presenter';
 
 @Injectable()
 export class Signin {

@@ -16,7 +16,7 @@ export function ormconfig(): DataSourceOptions {
       database: 'test',
       entities: [UrlsSchema, UsersSchema],
       migrations: ['dist/migrations/*.js'],
-      synchronize: false,
+      synchronize: true,
       ssl:
         process.env.DB_SSL === 'true' ? { rejectUnauthorized: false } : false,
       logging: false,

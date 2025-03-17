@@ -9,7 +9,7 @@ import {
 import { Public } from '../application/decorators/public.decorator';
 import { LoginDto } from '../application/dto/login.dto';
 import { LoginResponse, Signin } from '../application/usecases/signin';
-import { API_PREFIX } from 'src/@shared/constants';
+import { API_PREFIX } from '../../../@shared/constants';
 
 @Controller(`${API_PREFIX}/auth`)
 export class AuthController {

@@ -21,9 +21,9 @@ import {
   UrlsPresenter,
   UrlsPresenterType,
 } from '../application/presenters/presenters';
-import { API_PREFIX } from 'src/@shared/constants';
+import { API_PREFIX } from '../../../@shared/constants';
 import { GetAllUrls } from '../application/usecases/get-all-urls.usecase';
-import { Public } from 'src/modules/auth/application/decorators/public.decorator';
+import { Public } from '../../../modules/auth/application/decorators/public.decorator';
 import { Throttle } from '@nestjs/throttler';
 import { UpdateShortenedUrlDto } from '../application/dtos/update-shortened-url.dto';
 import { UpdateShortenedUrl } from '../application/usecases/update-shortened-url.usecase';

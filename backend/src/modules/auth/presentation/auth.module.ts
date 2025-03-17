@@ -3,11 +3,11 @@ import { Module } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from '../application/guards/jwt-auth/jwt-auth.guard';
 import { AuthController } from './auth.controller';
-import { REPOSITORIES } from 'src/@shared/constants';
+import { REPOSITORIES } from '../../../@shared/constants';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Signin } from '../application/usecases/signin';
-import { UsersRepository } from 'src/modules/users/infra/repositories/users.repository';
-import { UsersSchema } from 'src/modules/users/infra/entities/users.schema';
+import { UsersRepository } from '../../../modules/users/infra/repositories/users.repository';
+import { UsersSchema } from '../../../modules/users/infra/entities/users.schema';
 
 @Module({
   imports: [
