@@ -10,8 +10,8 @@ import { useHttpErrors } from '../../hooks/useHttpErrors';
 const Login = () => {
 
   const { post } = useHttp();
-  const [email, setEmail] = useState('admin@gmail.com');
-  const [password, setPassword] = useState('password');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [errorText, setErrorText] = useState('');

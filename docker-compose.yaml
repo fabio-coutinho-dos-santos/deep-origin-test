@@ -7,8 +7,8 @@ services:
     working_dir: /app
     ports:
       - "3000:3000"
-    volumes:
-      - ./backend:/app
+    # volumes:
+    #   - ./backend:/app
     env_file:
       - ./backend/.env
     networks:
@@ -24,8 +24,8 @@ services:
       - "4000:4000"
     env_file:
       - ./frontend/src/.env
-    volumes:
-      - ./frontend:/app
+    # volumes:
+    #   - ./frontend:/app
     depends_on:
       - svc-backend
     networks:

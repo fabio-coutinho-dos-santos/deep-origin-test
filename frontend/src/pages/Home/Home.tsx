@@ -5,7 +5,6 @@ import { CONSTANTS } from "../../config/constants";
 import MyModal from "../../components/MyModal/MyModal";
 import { errorImage, successImage } from "../../components/MyModal/Images";
 import UrlsDataTable from "../../components/Datatables/UrlsDataTable";
-import { useAuth } from "../../contexts/AuthContext";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import { useHttpErrors } from "../../hooks/useHttpErrors";
