@@ -8,6 +8,8 @@ import { CreateShortUrl } from '../application/usecases/create-short-url.usecase
 import { RedirectUrl } from '../application/usecases/redirect-url.usecase';
 import { GetAllUrls } from '../application/usecases/get-all-urls.usecase';
 import { ValidateUrlService } from '../application/services/validate-url-service';
+import { UpdateShortenedUrl } from '../application/usecases/update-shortened-url.usecase';
+import { DeleteUrl } from '../application/usecases/delete-url-usecase';
 
 @Module({
   imports: [TypeOrmModule.forFeature([UrlsSchema])],
@@ -21,6 +23,8 @@ import { ValidateUrlService } from '../application/services/validate-url-service
     RedirectUrl,
     GetAllUrls,
     ValidateUrlService,
+    UpdateShortenedUrl,
+    DeleteUrl,
   ],
 })
 export class UrlsModule {}

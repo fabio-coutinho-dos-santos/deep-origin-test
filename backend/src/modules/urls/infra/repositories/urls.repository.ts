@@ -11,10 +11,19 @@ export class UrlsRepository implements IUrlsRepository {
     private readonly urlsRepository: Repository<UrlsSchema>,
   ) {}
 
+  async delete(id: number): Promise<void> {
+    await this.urlsRepository.delete(id);
+  }
+
   async findByUser(userId: number): Promise<Url[]> {
     const urls = await this.urlsRepository.find({
       where: {
         userId: userId,
+      },
+      order: {
+        updatedAt: 'DESC',
+        createdAt: 'DESC',
+        hits: 'DESC',
       },
     });
     return urls.map((url) => UrlsMapper.toDomain(url));

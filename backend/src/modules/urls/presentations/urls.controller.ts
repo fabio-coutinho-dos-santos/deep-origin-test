@@ -8,6 +8,10 @@ import {
   Post,
   Res,
   Request,
+  Patch,
+  Delete,
+  HttpCode,
+  HttpStatus,
 } from '@nestjs/common';
 import { CreateShortUrlDto } from '../application/dtos/create-short-url-dto';
 import { CreateShortUrl } from '../application/usecases/create-short-url.usecase';
@@ -21,6 +25,9 @@ import { API_PREFIX } from 'src/@shared/constants';
 import { GetAllUrls } from '../application/usecases/get-all-urls.usecase';
 import { Public } from 'src/modules/auth/application/decorators/public.decorator';
 import { Throttle } from '@nestjs/throttler';
+import { UpdateShortenedUrlDto } from '../application/dtos/update-shortened-url.dto';
+import { UpdateShortenedUrl } from '../application/usecases/update-shortened-url.usecase';
+import { DeleteUrl } from '../application/usecases/delete-url-usecase';
 @Controller('')
 export class UrlsController {
   @Inject(CreateShortUrl)
@@ -31,6 +38,12 @@ export class UrlsController {
 
   @Inject(GetAllUrls)
   private getAllUrls: GetAllUrls;
+
+  @Inject(UpdateShortenedUrl)
+  private updateShortenedUrl: UpdateShortenedUrl;
+
+  @Inject(DeleteUrl)
+  private deleteUrl: DeleteUrl;
 
   @Post(`${API_PREFIX}/urls/shortened/create`)
   async shorten(@Body() input: CreateShortUrlDto): Promise<UrlsPresenterType> {
@@ -62,5 +75,20 @@ export class UrlsController {
     const userId: number = req.user.sub;
     const output: Url[] = await this.getAllUrls.execute(userId);
     return UrlsPresenter.presentAll(output);
+  }
+
+  @Patch(`${API_PREFIX}/urls/shortened/update/:id`)
+  async update(
+    @Param('id') id: number,
+    @Body() input: UpdateShortenedUrlDto,
+  ): Promise<UrlsPresenterType> {
+    const output: Url = await this.updateShortenedUrl.execute(input, id);
+    return UrlsPresenter.presentOne(output);
+  }
+
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @Delete(`${API_PREFIX}/urls/shortened/delete/:id`)
+  async delete(@Param('id') id: number): Promise<void> {
+    await this.deleteUrl.execute(id);
   }
 }

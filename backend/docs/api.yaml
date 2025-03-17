@@ -23,9 +23,6 @@ paths:
             schema:
               type: object
               properties:
-                name:
-                  type: string
-                  example: "admin"
                 email:
                   type: string
                   example: "admin@gmail.com"
@@ -146,6 +143,9 @@ paths:
                 items:
                   type: object
                   properties:
+                    id:
+                      type: number
+                      example: 1
                     original:
                       type: string
                       example: "https://www.google.com"
@@ -159,6 +159,63 @@ paths:
           description: Unauthorized
         "500":
           description: Internal Server Error
+
+  /api/v1/urls/shortened/update/{id}:
+    patch:
+      tags:
+        - Urls
+      security:
+        - BearerAuth: []
+      summary: Redirect Url
+      description: Redirect Url
+      operationId: redirectUrl
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: number
+          example: 1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                shortened:
+                  type: string
+                  example: "abc3e4"
+      responses:
+        "200":
+          description: Success
+        "404":
+          description: Not Found
+        "422":
+          description: Unprocessable Entity
+
+  /api/v1/urls/shortened/delete/{id}:
+    delete:
+      tags:
+        - Urls
+      summary: Delete Shortened Url
+      description: Delete Shortened Url
+      operationId: deleteShortenedUrl
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: number
+          example: 1
+      responses:
+        "204":
+          description: No Content
+        "404":
+          description: Not Found
+        "422":
+          description: Unprocessable Entity
 
   /{shortened}:
     get:

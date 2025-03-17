@@ -11,6 +11,10 @@ export class UsersRepository implements IUsersRepository {
     private readonly usersRepository: Repository<UsersSchema>,
   ) {}
 
+  async delete(id: number): Promise<void> {
+    await this.usersRepository.delete(id);
+  }
+
   async findOne(input: FindOneOptions<UsersSchema>): Promise<User> {
     const url = await this.usersRepository.findOne(input);
 
