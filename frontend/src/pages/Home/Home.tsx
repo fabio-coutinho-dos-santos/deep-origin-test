@@ -80,13 +80,13 @@ function Home() {
         <div className="row mt-5 justify-content-center form-container">
           <div className="col-12 col-sm-9">
             <div className='form-floating mb-3'>
-              <input type="text" minLength={5} required onChange={(e) => setUrl(e.target.value)} className='form-control' min={5} value={url} id='url' name='url' placeholder='Type the url' />
+              <input type="text" minLength={5} role='input-url' required onChange={(e) => setUrl(e.target.value)} className='form-control' min={5} value={url} id='url' name='url' placeholder='Type the url' />
               <label htmlFor="label" className='form-label'>Enter the URL to shorten</label>
             </div>
 
           </div>
           <div className="col-12 col-sm-3">
-            <input type="submit" className='btn btn-primary' disabled={url.length < 5} value={'Create'} onClick={handlerSubmit} />
+            <input type="submit" className='btn btn-primary' role='btn-submit' disabled={url.length < 5} value={'Create'} onClick={handlerSubmit} />
           </div>
 
           {loading &&
