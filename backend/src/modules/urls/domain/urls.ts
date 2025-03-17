@@ -11,7 +11,6 @@ export class Url {
   ) {
     this._hits = 0;
     this._createdAt = new Date();
-    this._updatedAt = new Date();
   }
 
   get id(): number {

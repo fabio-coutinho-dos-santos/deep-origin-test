@@ -68,4 +68,21 @@ export class UrlsRepository implements IUrlsRepository {
     });
     return urls.map((url) => UrlsMapper.toDomain(url));
   }
+
+  async createOrUpdate(data: Url): Promise<Url> {
+    const urlStored = await this.urlsRepository.findOne({
+      where: {
+        original: data.original,
+      },
+    });
+
+    if (urlStored) {
+      urlStored.shortened = data.shortened;
+      return this.update(urlStored, urlStored.id);
+    } else {
+      const urlsSchema = UrlsMapper.toPersistence(data);
+      const createdUrl = await this.urlsRepository.save(urlsSchema);
+      return UrlsMapper.toDomain(createdUrl);
+    }
+  }
 }

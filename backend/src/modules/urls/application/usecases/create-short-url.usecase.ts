@@ -6,7 +6,6 @@ import {
 } from '@nestjs/common';
 import { REPOSITORIES } from '../../../../@shared/constants';
 import { IUrlsRepository } from '../repositories/urls.repository.interface';
-import { CreateShortUrlDto } from '../dtos/create-short-url-dto';
 import { UrlsSchema } from '../../infra/entities/urls.schema';
 import { Url } from '../../domain/urls';
 import { ValidateUrlService } from '../services/validate-url-service';
@@ -29,7 +28,7 @@ export class CreateShortUrl {
 
       const shorten = await this.createUniqueSlugUrl();
       const newUrl = new Url(url, shorten, userId);
-      return await this.urlsRepository.create(newUrl);
+      return await this.urlsRepository.createOrUpdate(newUrl);
     } catch (error) {
       Logger.error(error, CreateShortUrl.name);
       throw error;
