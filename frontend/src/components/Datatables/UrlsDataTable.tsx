@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import DataTable, { TableColumn } from "react-data-table-component";
 import { CONSTANTS } from "../../config/constants";
 import { useAuth } from "../../contexts/AuthContext";
-import { FaRegCopy } from 'react-icons/fa';
+import { FaRegCopy, FaTrash } from 'react-icons/fa';
+import { useHttp } from "../../hooks/useHttp";
 
 export interface Urls {
+  id: number;
   original: string;
   shortened: string;
   hits: number;
@@ -20,6 +22,17 @@ const UrlsDataTable: React.FC<{ urls: Urls[] }> = ({ urls }) => {
     setTimeout(() => setShowToast(false), 1000);
   };
 
+  const { remove } = useHttp();
+
+  const handleDelete = async (url: Urls) => {
+    try {
+      await remove(`${CONSTANTS.url.deleteUrl}/${url.id}`);
+      window.location.reload();
+    } catch (error) {
+      alert("Failed to delete URL");
+    }
+  };
+
   const columns: TableColumn<Urls>[] = [
     {
       name: "Original",
@@ -30,7 +43,7 @@ const UrlsDataTable: React.FC<{ urls: Urls[] }> = ({ urls }) => {
     {
       name: "Shortened",
       cell: (row) => {
-        const fullUrl = `${CONSTANTS.url.host}/${row.shortened}`;
+        const fullUrl = `${CONSTANTS.url.host}${row.shortened}`;
         return (
           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
             <span onClick={() => copyToClipboard(fullUrl)}
@@ -50,7 +63,17 @@ const UrlsDataTable: React.FC<{ urls: Urls[] }> = ({ urls }) => {
       name: "Hits",
       selector: (row) => row.hits,
       sortable: true,
-    }
+    },
+    {
+      name: "Actions",
+      cell: (row) => (
+        <FaTrash
+          onClick={() => handleDelete(row)}
+          style={{ cursor: "pointer", color: "red" }}
+          title="Delete"
+        />
+      ),
+    },
   ];
 
   const customStyles = {
