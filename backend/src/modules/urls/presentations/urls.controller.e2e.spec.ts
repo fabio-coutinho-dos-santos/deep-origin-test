@@ -41,7 +41,6 @@ describe('Urls E2E tests', () => {
       it('should return unauthorized error', async () => {
         const input: CreateShortUrlDto = {
           url: 'https://www.google.com',
-          userId: 1,
         };
 
         return request(httpServer)
@@ -80,7 +79,6 @@ describe('Urls E2E tests', () => {
 
         const input: CreateShortUrlDto = {
           url: 'https.www.google.com',
-          userId: 1,
         };
 
         return await request(httpServer)
@@ -120,7 +118,6 @@ describe('Urls E2E tests', () => {
 
         const input: CreateShortUrlDto = {
           url: 'https://www.google.com',
-          userId: 1,
         };
 
         return await request(httpServer)

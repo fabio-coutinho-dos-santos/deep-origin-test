@@ -20,13 +20,12 @@ function Home() {
   const [loading, setLoading] = useState(false);
   const [url, setUrl] = useState("");
   const [urls, setUrls] = useState([]);
-  const { userId } = useAuth();
   const { getErrorMessage } = useHttpErrors();
 
   const handlerSubmit = async (event: any) => {
     try {
       event.preventDefault();
-      const response = await post(CONSTANTS.url.create, { url, userId: userId });
+      const response = await post(CONSTANTS.url.create, { url });
       const shortened = `${CONSTANTS.url.host}/${response.shortened}`;
       setModalTitle('Shortened url created');
       setShowModal(true);

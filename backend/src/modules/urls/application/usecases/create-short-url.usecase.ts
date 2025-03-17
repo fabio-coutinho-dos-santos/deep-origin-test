@@ -19,17 +19,17 @@ export class CreateShortUrl {
   @Inject(ValidateUrlService)
   private validateUrlService: ValidateUrlService;
 
-  async execute(input: CreateShortUrlDto): Promise<Url> {
+  async execute(url: string, userId: number): Promise<Url> {
     try {
-      const valid = await this.validateUrlService.isUrlValid(input.url);
+      const valid = await this.validateUrlService.isUrlValid(url);
 
       if (!valid) {
         throw new UnprocessableEntityException('Invalid URL');
       }
 
       const shorten = await this.createUniqueSlugUrl();
-      const url = new Url(input.url, shorten, input.userId);
-      return await this.urlsRepository.create(url);
+      const newUrl = new Url(url, shorten, userId);
+      return await this.urlsRepository.create(newUrl);
     } catch (error) {
       Logger.error(error, CreateShortUrl.name);
       throw error;

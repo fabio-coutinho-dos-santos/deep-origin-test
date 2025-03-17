@@ -46,8 +46,13 @@ export class UrlsController {
   private deleteUrl: DeleteUrl;
 
   @Post(`${API_PREFIX}/urls/shortened/create`)
-  async shorten(@Body() input: CreateShortUrlDto): Promise<UrlsPresenterType> {
-    const output: Url = await this.createShortUrl.execute(input);
+  async shorten(
+    @Body() input: CreateShortUrlDto,
+    @Request() req,
+  ): Promise<UrlsPresenterType> {
+    const userId: number = req.user.sub;
+    const { url } = input;
+    const output: Url = await this.createShortUrl.execute(url, userId);
     return UrlsPresenter.presentOne(output);
   }
 
