@@ -6,6 +6,7 @@ import { UsersModule } from './modules/users/presentation/users.module';
 import { AuthModule } from './modules/auth/presentation/auth.module';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
+import { WinstonLoggerModule } from './@infra/logger/winston.loggger.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { APP_GUARD } from '@nestjs/core';
     UrlsModule,
     UsersModule,
     AuthModule,
+    WinstonLoggerModule,
   ],
   controllers: [],
   providers: [
