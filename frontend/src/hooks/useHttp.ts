@@ -34,7 +34,7 @@ export const useHttp = () => {
 
   const update = async (url: string, body: Record<string, unknown>) => {
     const options = {
-      method: "PUT",
+      method: "PATCH",
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
@@ -57,7 +57,6 @@ export const useHttp = () => {
       },
     };
     const response = await fetch(url, options);
-    console.log(response.status);
     return await inspectResponse(response);
   };
 

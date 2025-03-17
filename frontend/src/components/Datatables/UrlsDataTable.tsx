@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import DataTable, { TableColumn } from "react-data-table-component";
 import { CONSTANTS } from "../../config/constants";
 import { useAuth } from "../../contexts/AuthContext";
-import { FaRegCopy, FaTrash } from 'react-icons/fa';
+import { FaRegCopy, FaTrash, FaEdit } from 'react-icons/fa';
 import { useHttp } from "../../hooks/useHttp";
+import EditModal from "../EditModal/EditModal";
 
 export interface Urls {
   id: number;
@@ -15,6 +16,8 @@ export interface Urls {
 const UrlsDataTable: React.FC<{ urls: Urls[] }> = ({ urls }) => {
   const { userName } = useAuth();
   const [showToast, setShowToast] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [urlId, setUrlId] = useState(0);
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
@@ -33,6 +36,11 @@ const UrlsDataTable: React.FC<{ urls: Urls[] }> = ({ urls }) => {
     }
   };
 
+  const handleEdit = (url: Urls) => {
+    setUrlId(url.id);
+    setShowModal(true);
+  };
+
   const columns: TableColumn<Urls>[] = [
     {
       name: "Original",
@@ -43,7 +51,7 @@ const UrlsDataTable: React.FC<{ urls: Urls[] }> = ({ urls }) => {
     {
       name: "Shortened",
       cell: (row) => {
-        const fullUrl = `${CONSTANTS.url.host}${row.shortened}`;
+        const fullUrl = `${CONSTANTS.url.host}/${row.shortened}`;
         return (
           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
             <span onClick={() => copyToClipboard(fullUrl)}
@@ -67,11 +75,18 @@ const UrlsDataTable: React.FC<{ urls: Urls[] }> = ({ urls }) => {
     {
       name: "Actions",
       cell: (row) => (
-        <FaTrash
-          onClick={() => handleDelete(row)}
-          style={{ cursor: "pointer", color: "red" }}
-          title="Delete"
-        />
+        <div style={{ display: "flex", gap: "10px" }}>
+          <FaTrash
+            onClick={() => handleDelete(row)}
+            style={{ cursor: "pointer", color: "red", fontSize: "1rem" }}
+            title="Delete"
+          />
+          <FaEdit
+            onClick={() => handleEdit(row)}
+            style={{ cursor: "pointer", color: "#2e4053", fontSize: "1rem" }}
+            title="Edit"
+          />
+        </div>
       ),
     },
   ];
@@ -109,6 +124,15 @@ const UrlsDataTable: React.FC<{ urls: Urls[] }> = ({ urls }) => {
 
   return (
     <div>
+
+      <EditModal
+        show={showModal}
+        onHide={() => setShowModal(false)}
+        urlId={urlId}
+      >
+        {"Test"}
+      </EditModal>
+
       {showToast && (
         <div
           className="position-fixed  bottom-0 end-0 m-3 toast show"
