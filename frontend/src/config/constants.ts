@@ -2,7 +2,7 @@ const host = import.meta.env.VITE_API_HOST_URL || "http://localhost:3000";
 export const CONSTANTS = {
   url: {
     host: host,
-    create: `${host}/api/v1/urls/shorten/create`,
+    create: `${host}/api/v1/urls/shortened/create`,
     getAllUrls: `${host}/api/v1/urls/all`,
   },
   messages: {

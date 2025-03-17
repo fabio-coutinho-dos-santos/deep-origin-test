@@ -32,8 +32,7 @@ export class UrlsController {
   @Inject(GetAllUrls)
   private getAllUrls: GetAllUrls;
 
-  @Public()
-  @Post(`${API_PREFIX}/urls/shorten/create`)
+  @Post(`${API_PREFIX}/urls/shortened/create`)
   async shorten(@Body() input: CreateShortUrlDto): Promise<UrlsPresenterType> {
     const output: Url = await this.createShortUrl.execute(input);
     return UrlsPresenter.presentOne(output);
