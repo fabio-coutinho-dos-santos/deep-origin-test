@@ -8,6 +8,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Signin } from '../application/usecases/signin';
 import { UsersRepository } from '../../../modules/users/infra/repositories/users.repository';
 import { UsersSchema } from '../../../modules/users/infra/entities/users.schema';
+import { ValidateToken } from '../application/usecases/validate-token';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { UsersSchema } from '../../../modules/users/infra/entities/users.schema'
       useClass: UsersRepository,
     },
     Signin,
+    ValidateToken,
   ],
   exports: [Signin],
 })

@@ -6,6 +6,7 @@ export const CONSTANTS = {
     getAllUrls: `${host}/api/v1/urls/all`,
     deleteUrl: `${host}/api/v1/urls/shortened/delete`,
     updatedUrl: `${host}/api/v1/urls/shortened/update`,
+    validateToken: `${host}/api/v1/auth/validate-token`,
   },
   messages: {
     uploadFileSuccesfullyTitle: "File uploaded succesfully",

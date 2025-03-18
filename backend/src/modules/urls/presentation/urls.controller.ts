@@ -75,7 +75,7 @@ export class UrlsController {
   }
 
   @Get(`${API_PREFIX}/urls/all`)
-  @Throttle({ default: { limit: 20, ttl: 30000 } })
+  @Throttle({ default: { limit: 60, ttl: 30000 } })
   async getAll(@Request() req): Promise<UrlsPresenterType[]> {
     const userId: number = req.user.sub;
     const output: Url[] = await this.getAllUrls.execute(userId);
