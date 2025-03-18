@@ -1,4 +1,4 @@
-import { HttpStatus, Injectable } from '@nestjs/common';
+import { HttpStatus, Injectable, Logger } from '@nestjs/common';
 import axios from 'axios';
 
 @Injectable()
@@ -11,7 +11,13 @@ export class ValidateUrlService {
     const regex = new RegExp(
       '^(https?|ftp)://[a-zA-Z0-9]+(.[a-zA-Z0-9]+)*(:[0-9]+)?(/.*)?$',
     );
-    return regex.test(url);
+    const valid = regex.test(url);
+
+    if (!valid) {
+      Logger.error(`Invalid url format - ${url}`, ValidateUrlService.name);
+    }
+
+    return valid;
   }
 
   private async isReachable(url: string): Promise<boolean> {
@@ -22,6 +28,7 @@ export class ValidateUrlService {
         response.status < HttpStatus.BAD_REQUEST
       );
     } catch (error) {
+      Logger.error(`${url} is not reacheable`, ValidateUrlService.name);
       return false;
     }
   }
