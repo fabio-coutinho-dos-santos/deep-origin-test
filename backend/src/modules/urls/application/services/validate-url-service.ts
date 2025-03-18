@@ -1,10 +1,9 @@
-import { HttpStatus, Injectable, Logger } from '@nestjs/common';
-import axios from 'axios';
+import { Injectable, Logger } from '@nestjs/common';
 
 @Injectable()
 export class ValidateUrlService {
   async isUrlValid(url: string): Promise<boolean> {
-    return (await this.isReachable(url)) && this.isValidFormat(url);
+    return this.isValidFormat(url);
   }
 
   private async isValidFormat(url: string): Promise<boolean> {
@@ -18,18 +17,5 @@ export class ValidateUrlService {
     }
 
     return valid;
-  }
-
-  private async isReachable(url: string): Promise<boolean> {
-    try {
-      const response = await axios.get(url, { timeout: 5000 });
-      return (
-        response.status >= HttpStatus.OK &&
-        response.status < HttpStatus.BAD_REQUEST
-      );
-    } catch (error) {
-      Logger.error(`${url} is not reacheable`, ValidateUrlService.name);
-      return false;
-    }
   }
 }
