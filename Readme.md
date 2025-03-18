@@ -42,6 +42,9 @@ From a Clean Architecture perspective, anti-corruption layers were created betwe
 
 - Simple authentication with OAuth2 standard has been implemented, with API routes protected
 - A rate limit has been implemented on the backend
+- Implemented a check of the original URL
+- User registration and login scheme separating data by accounts
+- Mechanism to know how many times the shortened URL was visited
 - Features have been implemented to update and delete created routes
 - Git flow and conventional commits were used.
 - Clean and event-driven architecture applied.
