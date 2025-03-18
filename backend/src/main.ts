@@ -14,8 +14,7 @@ async function bootstrap() {
 
   const app = await NestFactory.create(AppModule, { cors: true });
 
-  process.env.NODE_ENV == ENVIRONMENT.PRODUCTION &&
-    app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER));
+  app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER));
 
   const swaggerFilePath = './docs/api.yaml';
 

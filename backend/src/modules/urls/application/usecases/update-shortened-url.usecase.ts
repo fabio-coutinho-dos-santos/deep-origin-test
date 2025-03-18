@@ -36,7 +36,10 @@ export class UpdateShortenedUrl {
         },
       });
     } catch (error) {
-      Logger.error(error, UpdateShortenedUrl.name);
+      Logger.error(
+        `Error on trying update shortened url ${urlId}: ${error}`,
+        UpdateShortenedUrl.name,
+      );
       throw error;
     }
   }

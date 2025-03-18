@@ -17,8 +17,8 @@ export class CreateUser {
       const newUser = new User(name, email, hashedPassword);
       return await this.usersRepository.create(newUser);
     } catch (error) {
-      Logger.error(error);
-      throw new Error(error);
+      Logger.error(error, CreateUser.name);
+      throw error;
     }
   }
 }

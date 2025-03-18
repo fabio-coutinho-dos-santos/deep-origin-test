@@ -27,8 +27,11 @@ export class UsersController {
       });
       return output;
     } catch (error) {
-      Logger.error(error);
-      throw new Error(error);
+      Logger.error(
+        `Error on trying register new user: ${createUserDto}: ${error}`,
+        UsersController.name,
+      );
+      throw error;
     }
   }
 }
