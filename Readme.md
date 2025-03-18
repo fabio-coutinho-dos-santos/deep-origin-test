@@ -1,12 +1,11 @@
-# API-RESTful
-
-RESTful API developed for user registration and consent events as a technical test for a senior backend engineer position at DIDOMI.
+# Shorten Url - Full Stack
 
 ## Main elements used in the development
 
 - node v20.9.0
 - nestJs
 - express
+- vite
 - react
 - typescript
 - postgres
